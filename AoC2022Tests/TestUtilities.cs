@@ -8,20 +8,20 @@ namespace AoC2022Tests
         {
             var files = Directory.EnumerateFiles(
                 Path.Combine(AppDomain.CurrentDomain.BaseDirectory,
-                    "inputs"));
+                    "Inputs"));
             foreach (var file in files)
             {
-                yield return new TestFile(file, ResolveDayFromFileName(Path.GetFileName(file)),
+                yield return new TestFile(Path.GetRelativePath(Directory.GetCurrentDirectory(), file), ResolveDayFromFileName(Path.GetFileName(file)),
                     file.Contains("Example", StringComparison.InvariantCultureIgnoreCase)
                 );
             }
         }
 
         public static IEnumerable<object[]> ExampleFiles() => 
-            TestFiles().Where(x => x.Example).Select(x => new object[] {x.Path, x.Day});
+            TestFiles().Where(x => x.Example).OrderBy(x => x.Day).Select(x => new object[] {x.Path, x.Day});
 
         public static IEnumerable<object[]> InputFiles() =>
-            TestFiles().Where(x => !x.Example).Select(x => new object[] { x.Path, x.Day });
+            TestFiles().Where(x => !x.Example).OrderBy(x => x.Day).Select(x => new object[] { x.Path, x.Day });
 
 
         public record TestFile(string Path, int Day, bool Example);
