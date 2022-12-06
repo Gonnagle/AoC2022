@@ -41,4 +41,5 @@ jobs:
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2.2.0
       with:
-        trx_files: "TestResults/**/*.trx"
+        if: always()
+        trx_files: "**/*.trx" # Can't get TestResults/**/*.trx to work
