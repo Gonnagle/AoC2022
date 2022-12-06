@@ -40,3 +40,5 @@ jobs:
     # Collect and publish test results
     - name: Publish Test Results
       uses: EnricoMi/publish-unit-test-result-action@v2.2.0
+      with:
+        trx_files: "TestResults/**/*.trx"
