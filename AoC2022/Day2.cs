@@ -42,7 +42,8 @@ namespace AoC2022
                 {
                     'Z' => elf + 1 <= 2 ? elf + 1 : 0,   // Z -> Win
                     'Y' => elf,                          // Y -> Draw
-                    'X' => elf - 1 >= 0 ? elf - 1: 2     // X -> Loose
+                    'X' => elf - 1 >= 0 ? elf - 1: 2,     // X -> Loose
+                    _ => throw new Exception("Unsupported")
                 };
                 var result = me - elf;
                 var score = me + 1;
