@@ -25,6 +25,9 @@
             return "NOT FOUND";
         }
 
+        public static string Part1v2(IEnumerable<string> lines)
+            => FindFirstSequence(4, lines.First()).ToString();
+            
         public static string Part2(IEnumerable<string> lines)
         {
             var input = lines.First();
@@ -66,6 +69,21 @@
                 m = n;
             }
             return "NOT FOUND";
+        }
+
+        public static string Part2v2(IEnumerable<string> lines)
+            => FindFirstSequence(4, lines.First()).ToString();
+
+        public static int FindFirstSequence(int windowSize, string input)
+        {
+            for(var i = 0; i + windowSize <= input.Length; i++)
+            {
+                if(input[i..(i+windowSize)].ToCharArray().ToList().Distinct().Count() == windowSize)
+                {
+                    return i + windowSize;
+                }
+            }
+            return -1;
         }
     }
 }
