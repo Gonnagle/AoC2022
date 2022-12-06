@@ -25,9 +25,6 @@
             return "NOT FOUND";
         }
 
-        public static string Part1v2(IEnumerable<string> lines)
-            => FindFirstSequence(4, lines.First()).ToString();
-            
         public static string Part2(IEnumerable<string> lines)
         {
             var input = lines.First();
@@ -71,8 +68,12 @@
             return "NOT FOUND";
         }
 
-        public static string Part2v2(IEnumerable<string> lines)
+        // Another version with a bit more compact windowing :D
+        public static string Part1v2(IEnumerable<string> lines)
             => FindFirstSequence(4, lines.First()).ToString();
+
+        public static string Part2v2(IEnumerable<string> lines)
+            => FindFirstSequence(14, lines.First()).ToString();
 
         public static int FindFirstSequence(int windowSize, string input)
         {
