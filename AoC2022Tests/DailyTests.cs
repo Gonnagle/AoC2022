@@ -21,7 +21,8 @@ namespace AoC2022Tests
                 {3, new Result("157", "70")},
                 {4, new Result("2", "4")},
                 {5, new Result("CMZ", "MCD")},
-                {6, new Result("11", "26")}
+                {6, new Result("11", "26")},
+                {7, new Result("95437", "24933642")}
             };
         }
 
