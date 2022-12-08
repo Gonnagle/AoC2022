@@ -1,19 +1,33 @@
+using System.Diagnostics;
+
 ﻿namespace AoC2022
 {
     public static class Day8
     {
         public static string Part1(IEnumerable<string> lines)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             var treeMap = new TreeMap(lines.ToArray());
 
-            return treeMap.ResolveTreeVisibilities().ToString();
+            var result = treeMap.ResolveTreeVisibilities().ToString();
+            Console.WriteLine($"Part 1 took: {stopWatch.ElapsedMilliseconds} ms");
+
+            return result;
         }
 
         public static string Part2(IEnumerable<string> lines)
         {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             var treeMap = new TreeMap(lines.ToArray());
 
-            return treeMap.ResolveHighestScenicScore().ToString();
+            var result = treeMap.ResolveHighestScenicScore().ToString();
+            Console.WriteLine($"Part 2 took: {stopWatch.ElapsedMilliseconds} ms");
+
+            return result;
         }
 
         public class TreeMap
@@ -134,7 +148,6 @@
 
             public Tree[] GetRowSlice(int rowNumber, int firstIndex, int lastIndex)
             {
-                Console.WriteLine($"{rowNumber}, {firstIndex}, {lastIndex}, {MapWidth}, {MapHeight}");
                 var slice = Enumerable.Range(firstIndex, lastIndex - firstIndex + 1)
                     .Select(x => Map[x, rowNumber])
                     .ToArray();
