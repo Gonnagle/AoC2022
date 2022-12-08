@@ -43,3 +43,11 @@ jobs:
       with:
         if: always()
         trx_files: "**/*.trx" # Can't get TestResults/**/*.trx to work
+
+    - name: Test Report 2
+      uses: dorny/test-reporter@v1
+      if: success() || failure()    # run this step even if previous step failed
+      with:
+          name: XUnit Tests
+          path: "**/*.trx"
+          reporter: dotnet-trx
