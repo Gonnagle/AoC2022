@@ -15,7 +15,6 @@
         {
             var sumNotNeeded = 0;
             var root = PopulateDirectoryTree(lines, ref sumNotNeeded);
-            var workingDirectory = root;
             const int totalDiskSpace = 70000000;
             const int neededSpace = 30000000;
 
