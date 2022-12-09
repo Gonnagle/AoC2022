@@ -54,25 +54,10 @@ using System.Diagnostics;
                 }
             }
 
-            public Tree[] TreesOnLeft(int x, int y)
-            {
-                return GetRowSlice(y, 0, x - 1);
-            }
-
-            public Tree[] TreesOnRight(int x, int y)
-            {
-                return GetRowSlice(y, x + 1, MapWidth - 1);
-            }
-
-            public Tree[] TreesOnTop(int x, int y)
-            {
-                return GetColumnSlice(x, 0, y - 1);
-            }
-
-            public Tree[] TreesOnBelow(int x, int y)
-            {
-                return GetColumnSlice(x, y + 1, MapHeight - 1);
-            }
+            public Tree[] TreesOnLeft(int x, int y) => GetRowSlice(y, 0, x - 1);
+            public Tree[] TreesOnRight(int x, int y) => GetRowSlice(y, x + 1, MapWidth - 1);
+            public Tree[] TreesOnTop(int x, int y) => GetColumnSlice(x, 0, y - 1);
+            public Tree[] TreesOnBelow(int x, int y) => GetColumnSlice(x, y + 1, MapHeight - 1);
 
             public int ResolveTreeVisibilities()
             {
