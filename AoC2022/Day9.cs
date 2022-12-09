@@ -26,8 +26,15 @@ using System.Diagnostics;
         {
             Stopwatch stopWatch = new Stopwatch();
             stopWatch.Start();
+            
+            var bridge = new Bridge(10);
 
-            var result = "TODO2".ToString();
+            foreach (var line in lines)
+            {
+                bridge.Move(line);
+            }
+
+            var result = bridge.TotalVisitedPositions.ToString();
             Console.WriteLine($"{nameof(Day9)} / {nameof(Part2)} took: {stopWatch.ElapsedMilliseconds} ms");
 
             return result;
@@ -37,13 +44,20 @@ using System.Diagnostics;
         {
             public int TotalVisitedPositions { get; private set; }
 
-            private readonly Coordinate _head = new();
-            private readonly Coordinate _tail = new();
+            private readonly Coordinate[] _knots;
 
             private readonly Dictionary<Tuple<int, int>, Position> _positions = new ();
 
+            public Bridge(int ropeLength = 2){
+                _knots = new Coordinate[ropeLength];
+                for(var i = 0; i < ropeLength; ++i){
+                    _knots[i] = new Coordinate(0, 0);
+                }
+            }
+
             public void Move(string line)
             {
+                
                 var direction = line[0];
                 var count = int.Parse(line.Split(" ")[1]);
 
@@ -53,82 +67,68 @@ using System.Diagnostics;
                 }
             }
 
-            public void Step(char direction)
+            private void Step(char direction)
             {
-                if (direction == 'U')
+                var head = _knots[0];
+                
+                switch( direction )
                 {
-                    ++_head.Y;
+                   case 'U': head.MoveUp(); break;
+                   case 'D': head.MoveDown(); break;
+                   case 'R': head.MoveRight(); break;
+                   case 'L': head.MoveLeft(); break;
+                };
 
-                    if (_head.Y - _tail.Y == 2)
-                    {
-                        ++_tail.Y;
-                        if (_head.X != _tail.X)
-                        {
-                            _tail.X = _head.X;
-                        }
-                    }
-                }
-                if (direction == 'D')
-                {
-                    --_head.Y;
-
-                    if (_head.Y - _tail.Y == -2)
-                    {
-                        --_tail.Y;
-                        if (_head.X != _tail.X)
-                        {
-                            _tail.X = _head.X;
-                        }
-                    }
-                }
-                if (direction == 'R')
-                {
-                    ++_head.X;
-
-                    if (_head.X - _tail.X == 2)
-                    {
-                        ++_tail.X;
-                        if (_head.Y != _tail.Y)
-                        {
-                            _tail.Y = _head.Y;
-                        }
-                    }
-                }
-                if (direction == 'L')
-                {
-                    --_head.X;
-
-                    if (_head.X - _tail.X == -2)
-                    {
-                        --_tail.X;
-                        if (_head.Y != _tail.Y)
-                        {
-                            _tail.Y = _head.Y;
-                        }
-                    }
+                for(var i = 0; i < _knots.Length - 1; ++i){
+                    TransformTail(_knots[i], _knots[i + 1]);
                 }
 
-                var headKey = Tuple.Create(_head.X, _head.Y);
-                var tailKey = Tuple.Create(_tail.X, _tail.Y);
-
-                var headPosition = _positions.ContainsKey(headKey) ? _positions[headKey] : _positions[headKey] = new Position();
-                var tailPosition = _positions.ContainsKey(tailKey) ? _positions[tailKey] : _positions[tailKey] = new Position();
-
-                headPosition.HeadVisited = true;
+                var tail = _knots[^1];
+                var tailPosition = _positions.ContainsKey(tail.Key) ? _positions[tail.Key] : _positions[tail.Key] = new Position();
                 if (tailPosition.TailVisited != true)
                 {
                     ++TotalVisitedPositions;
                 }
                 tailPosition.TailVisited = true;
+            }
 
-                //_positions[Tuple.Create(_head.X, _head.Y)] = headPosition;
-                //_positions[tailKey] = tailPosition;
+            private void TransformTail(Coordinate head, Coordinate tail){
+                var xDiff = head.X - tail.X;
+                var yDiff = head.Y - tail.Y;
+
+                var xMove = 0;
+                var yMove = 0;
+
+                if(Math.Abs(xDiff) == 2 || Math.Abs(yDiff) == 2){
+                    // Direct transition
+                    if(xDiff == 0 || yDiff == 0){
+                        xMove = xDiff / 2;
+                        yDiff = yDiff / 2;
+                    }
+                    // Diagonal transition
+                    xMove = Math.Sign(xDiff);
+                    yMove = Math.Sign(yDiff);
+                }
+                tail.X += xMove;
+                tail.Y += yMove;
             }
 
             internal class Coordinate
             {
                 internal int X { get; set; }
                 internal int Y { get; set; }
+                
+                internal Tuple<int, int> Key => Tuple.Create(X, Y);
+                
+                internal Coordinate(int x, int y){
+                    X = x;
+                    Y = y;
+                }
+
+                internal void MoveLeft() => --X;
+                internal void MoveRight() => ++X;
+                internal void MoveDown() => --Y;
+                internal void MoveUp() => ++Y;
             }
             internal class Position
             {

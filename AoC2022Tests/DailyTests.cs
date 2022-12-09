@@ -24,7 +24,7 @@ namespace AoC2022Tests
                 {6, new Result("11", "26")},
                 {7, new Result("95437", "24933642")},
                 {8, new Result("21", "8")},
-                {9, new Result("13", "??")}
+                {9, new Result("13", "1")}
             };
         }
 
@@ -45,7 +45,6 @@ namespace AoC2022Tests
             var methodInfo = ResolveMethodToTest(day, false);
 
             var result = methodInfo.Invoke(null, new object?[]{lines})!.ToString();
-
             _testOutputHelper.WriteLine(result);
             result.Should().Be(_expectedExampleResults[day].Part1);
         }
@@ -59,7 +58,7 @@ namespace AoC2022Tests
             var methodInfo = ResolveMethodToTest(day, false);
 
             var result = methodInfo.Invoke(null, new object?[]{lines})!.ToString();
-
+            Console.WriteLine($"Day {day} / Part 1 Result: {result}");
             _testOutputHelper.WriteLine(result);
         }
 
@@ -86,7 +85,7 @@ namespace AoC2022Tests
             var methodInfo = ResolveMethodToTest(day, true);
 
             var result = methodInfo.Invoke(null, new object?[] { lines })!.ToString();
-
+            Console.WriteLine($"Day {day} / Part 2 Result: {result}");
             _testOutputHelper.WriteLine(result);
         }
         private static MethodInfo ResolveMethodToTest(int day, bool part2)
