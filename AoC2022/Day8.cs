@@ -1,32 +1,18 @@
-using System.Diagnostics;
-
 ﻿namespace AoC2022
 {
     public static class Day8
     {
         public static string Part1(IEnumerable<string> lines)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             var treeMap = new TreeMap(lines.ToArray());
-
             var result = treeMap.ResolveTreeVisibilities().ToString();
-            Console.WriteLine($"Part 1 took: {stopWatch.ElapsedMilliseconds} ms");
-
             return result;
         }
 
         public static string Part2(IEnumerable<string> lines)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             var treeMap = new TreeMap(lines.ToArray());
-
             var result = treeMap.ResolveHighestScenicScore().ToString();
-            Console.WriteLine($"Part 2 took: {stopWatch.ElapsedMilliseconds} ms");
-
             return result;
         }
 

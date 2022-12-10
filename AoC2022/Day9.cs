@@ -1,42 +1,26 @@
-using System.Diagnostics;
-
 ﻿namespace AoC2022
 {
     public static class Day9
     {
         public static string Part1(IEnumerable<string> lines)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-
             var bridge = new Bridge();
-
             foreach (var line in lines)
             {
                 bridge.Move(line);
             }
-
             var result = bridge.TotalVisitedPositions.ToString();
-            Console.WriteLine($"{nameof(Day9)} / {nameof(Part1)} took: {stopWatch.ElapsedMilliseconds} ms");
-
             return result;
         }
 
         public static string Part2(IEnumerable<string> lines)
         {
-            Stopwatch stopWatch = new Stopwatch();
-            stopWatch.Start();
-            
             var bridge = new Bridge(10);
-
             foreach (var line in lines)
             {
                 bridge.Move(line);
             }
-
             var result = bridge.TotalVisitedPositions.ToString();
-            Console.WriteLine($"{nameof(Day9)} / {nameof(Part2)} took: {stopWatch.ElapsedMilliseconds} ms");
-
             return result;
         }
 

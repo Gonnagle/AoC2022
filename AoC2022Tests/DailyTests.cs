@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using System.Reflection;
 using AoC2022;
 using FluentAssertions;
@@ -46,6 +47,8 @@ namespace AoC2022Tests
             var methodInfo = ResolveMethodToTest(day, false);
 
             var result = methodInfo.Invoke(null, new object?[]{lines})!.ToString();
+            
+            Console.WriteLine($"Day {day} / Part 1 Example Result: {result}");
             _testOutputHelper.WriteLine(result);
             result.Should().Be(_expectedExampleResults[day].Part1);
         }
@@ -63,8 +66,12 @@ namespace AoC2022Tests
             var lines = File.ReadLines(filePath);
             var methodInfo = ResolveMethodToTest(day, false);
 
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             var result = methodInfo.Invoke(null, new object?[]{lines})!.ToString();
-            Console.WriteLine($"Day {day} / Part 1 Result: {result}");
+
+            Console.WriteLine($"Day {day} / Result 1 in {stopWatch.ElapsedMilliseconds} ms:\n{result}");
             _testOutputHelper.WriteLine(result);
         }
 
@@ -78,6 +85,7 @@ namespace AoC2022Tests
 
             var result = methodInfo.Invoke(null, new object?[] { lines })!.ToString();
 
+            Console.WriteLine($"Day {day} / Part 2 Example Result: {result}");
             _testOutputHelper.WriteLine(result);
             result.Should().Be(_expectedExampleResults[day].Part2);
         }
@@ -90,8 +98,12 @@ namespace AoC2022Tests
             var lines = File.ReadLines(filePath);
             var methodInfo = ResolveMethodToTest(day, true);
 
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+
             var result = methodInfo.Invoke(null, new object?[] { lines })!.ToString();
-            Console.WriteLine($"Day {day} / Part 2 Result: {result}");
+            
+            Console.WriteLine($"Day {day} / Part 2 Result in {stopWatch.ElapsedMilliseconds} ms:\n{result}");
             _testOutputHelper.WriteLine(result);
         }
         private static MethodInfo ResolveMethodToTest(int day, bool part2)
