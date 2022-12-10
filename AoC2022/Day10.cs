@@ -1,6 +1,4 @@
-using System.Diagnostics;
-
-﻿namespace AoC2022
+namespace AoC2022
 {
     public static class Day10
     {
