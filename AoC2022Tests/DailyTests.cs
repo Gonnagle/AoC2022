@@ -26,7 +26,8 @@ namespace AoC2022Tests
                 {7, new Result("95437", "24933642")},
                 {8, new Result("21", "8")},
                 {9, new Result("13", "1")},
-                {10, new Result("13140", "##..##..##..##..##..##..##..##..##..##..\n###...###...###...###...###...###...###.\n####....####....####....####....####....\n#####.....#####.....#####.....#####.....\n######......######......######......####\n#######.......#######.......#######.....")}
+                {10, new Result("13140", "##..##..##..##..##..##..##..##..##..##..\n###...###...###...###...###...###...###.\n####....####....####....####....####....\n#####.....#####.....#####.....#####.....\n######......######......######......####\n#######.......#######.......#######.....")},
+                {11, new Result("10605", "2713310158")},
             };
         }
 
@@ -53,11 +54,6 @@ namespace AoC2022Tests
             result.Should().Be(_expectedExampleResults[day].Part1);
         }
 
-        [Fact]
-        public void Day10Test(){
-            var result = Day10.Part1(File.ReadLines("Inputs/Day10Example.txt"));
-        }
-
         [Theory]
         [MemberData(nameof(InputFiles))]
         public void Part1Execution(string filePath, int day)
@@ -71,7 +67,7 @@ namespace AoC2022Tests
 
             var result = methodInfo.Invoke(null, new object?[]{lines})!.ToString();
 
-            Console.WriteLine($"Day {day} / Result 1 in {stopWatch.ElapsedMilliseconds} ms:\n{result}");
+            Console.WriteLine($"Day {day} / Part 1 Result in {stopWatch.ElapsedMilliseconds} ms:\n{result}");
             _testOutputHelper.WriteLine(result);
         }
 
@@ -88,6 +84,12 @@ namespace AoC2022Tests
             Console.WriteLine($"Day {day} / Part 2 Example Result: {result}");
             _testOutputHelper.WriteLine(result);
             result.Should().Be(_expectedExampleResults[day].Part2);
+        }
+
+        [Fact]
+        public void Day11Part2(){
+            var result = Day11.Part2(File.ReadLines("Inputs/Day11Example.txt"));
+            result.Should().Be(_expectedExampleResults[11].Part2);
         }
 
         [Theory]
