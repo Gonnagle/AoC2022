@@ -28,6 +28,7 @@ namespace AoC2022Tests
                 {9, new Result("13", "1")},
                 {10, new Result("13140", "##..##..##..##..##..##..##..##..##..##..\n###...###...###...###...###...###...###.\n####....####....####....####....####....\n#####.....#####.....#####.....#####.....\n######......######......######......####\n#######.......#######.......#######.....")},
                 {11, new Result("10605", "2713310158")},
+                {12, new Result("31", "29")},
             };
         }
 
@@ -87,9 +88,9 @@ namespace AoC2022Tests
         }
 
         [Fact]
-        public void Day11Part2(){
-            var result = Day11.Part2(File.ReadLines("Inputs/Day11Example.txt"));
-            result.Should().Be(_expectedExampleResults[11].Part2);
+        public void CurrentDay(){
+            var result = Day12.Part1(File.ReadLines("Inputs/Day12Example.txt"));
+            result.Should().Be(_expectedExampleResults[12].Part1);
         }
 
         [Theory]
