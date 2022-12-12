@@ -53,7 +53,6 @@ namespace AoC2022
                     if(_currentCycle == 20 || (_currentCycle - 20) % 40 == 0)
                     {
                         var signalStrength = _currentCycle * _registerX;
-                        Console.WriteLine($"Signal strength: {signalStrength}");
                         SumOfSignalStrengths += signalStrength;
                     }
                 }
