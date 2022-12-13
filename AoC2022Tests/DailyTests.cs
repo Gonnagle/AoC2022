@@ -29,6 +29,7 @@ namespace AoC2022Tests
                 {10, new Result("13140", "##..##..##..##..##..##..##..##..##..##..\n###...###...###...###...###...###...###.\n####....####....####....####....####....\n#####.....#####.....#####.....#####.....\n######......######......######......####\n#######.......#######.......#######.....")},
                 {11, new Result("10605", "2713310158")},
                 {12, new Result("31", "29")},
+                {13, new Result("13", "140")},
             };
         }
 
@@ -89,8 +90,8 @@ namespace AoC2022Tests
 
         [Fact]
         public void CurrentDay(){
-            var result = Day12.Part1(File.ReadLines("Inputs/Day12Example.txt"));
-            result.Should().Be(_expectedExampleResults[12].Part1);
+            var result = Day13.Part2(File.ReadLines("Inputs/Day13Example.txt"));
+            result.Should().Be(_expectedExampleResults[13].Part2);
         }
 
         [Theory]
