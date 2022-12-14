@@ -91,8 +91,8 @@ namespace AoC2022Tests
 
         [Fact]
         public void CurrentDay(){
-            var result = Day14.Part1(File.ReadLines("Inputs/Day14Example.txt"));
-            result.Should().Be(_expectedExampleResults[14].Part1);
+            var result = Day14.Part2(File.ReadLines("Inputs/Day14Example.txt"));
+            result.Should().Be(_expectedExampleResults[14].Part2);
         }
 
         [Theory]

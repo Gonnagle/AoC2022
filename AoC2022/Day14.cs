@@ -1,5 +1,3 @@
-using System.Text.Json;
-
 namespace AoC2022
 {
     public static class Day14
@@ -7,21 +5,20 @@ namespace AoC2022
         public static string Part1(IEnumerable<string> lines)
         {
             var scanner = new Scanner(lines);
-
             var result = scanner.Cave.PourSandUntilStable();
 
-            scanner.Cave.Print();
+            // scanner.Cave.Print();
 
             return result.ToString();
         }
 
         public static string Part2(IEnumerable<string> lines)
         {
-            var scanner = new Scanner(lines);
+            var scanner = new Scanner(lines, true);
 
             var result = scanner.Cave.PourSandUntilStableBedrockEdition();
 
-            scanner.Cave.Print();
+            // scanner.Cave.Print();
 
             return result.ToString();
         }
@@ -34,7 +31,7 @@ namespace AoC2022
 
             public Cave Cave { get; }
 
-            internal Scanner(IEnumerable<string> input)
+            internal Scanner(IEnumerable<string> input, bool expectBedrock = false)
             {
                 var pathWays = new List<List<int[]>>();
                 foreach (var row in input)
@@ -56,10 +53,11 @@ namespace AoC2022
                     }
                     pathWays.Add(pathLine);
                 }
-                var xOffset = mins[0] - 10;
-                var width = maxs[0] - mins[0] + 20;
+                var xOffset = mins[0] - 250;
+                var width = maxs[0] - mins[0] + 500;
                 var height = maxs[1] + 1;
-                Cave = new Cave(xOffset, width, height, 500);
+
+                Cave = new Cave(xOffset, width, height, 500, expectBedrock);
 
                 // With more clever ordering of things we could avoid this second iteration, but...
                 foreach (var pathWay in pathWays)
@@ -89,17 +87,23 @@ namespace AoC2022
             private int _width;
             private int _height;
 
-            internal Cave(int xOffset, int width, int height, int xStart)
+            internal Cave(int xOffset, int width, int height, int xStart, bool addBedRock = false)
             {
                 _xOffset = xOffset;
                 _width = width;
                 _height = height;
+                _height = addBedRock ? _height + 2 : _height;
 
                 TwoDimMap = EmptyMap(_width, _height);
+                 if(addBedRock)
+                 {
+                    AddPath(new int[] {0, _height - 1}, new int[] {width - 1, _height - 1}, true);
+                 }
+
                 Start = GetPixel(xStart, 0);
             }
 
-            internal static Pixel[,] EmptyMap(int width, int height)
+            internal Pixel[,] EmptyMap(int width, int height)
             {
                 var map = new Pixel[width, height];
 
@@ -121,19 +125,23 @@ namespace AoC2022
                 return TwoDimMap[x, y];
             }
 
-            internal void AddPath(int[] start, int[] end)
+            internal void AddPath(int[] start, int[] end, bool transformedPixels = false)
             {
                 var xStep = end[0] - start[0] < 0 ? -1 : 1;
                 var yStep = end[1] - start[1] < 0 ? -1 : 1;
 
                 for (var x = start[0]; x != end[0] + xStep; x += xStep)
                 {
-                    GetPixel(x, start[1]).ChangeToStone();
+                    (transformedPixels 
+                        ? GetRelativePixel(x, start[1])
+                        : GetPixel(x, start[1])).ChangeToStone();
                 }
 
                 for (var y = start[1]; y != end[1] + yStep; y += yStep)
                 {
-                    GetPixel(start[0], y).ChangeToStone();
+                    (transformedPixels 
+                        ? GetRelativePixel(start[0], y)
+                        : GetPixel(start[0], y)).ChangeToStone();
                 }
             }
 
@@ -170,7 +178,33 @@ namespace AoC2022
 
             internal int PourSandUntilStableBedrockEdition()
             {
-                return 2;
+                var sandGrainsTotal = 0;
+                var current = Start;
+
+                while(current.Y < _height)
+                {
+                    current = Start;
+                    Pixel? next = null;
+                    var atRest = false;
+                    while(!atRest)
+                    {
+                        if(current == Start && current.Contents == 'o')
+                        {
+                            return sandGrainsTotal;
+                        }
+                        next = DropStep(current);
+                        if(next == current){
+                            current.ChangeToSand();
+                            atRest = true;
+                            ++sandGrainsTotal;
+                        }
+                        else
+                        {
+                            current = next;
+                        }
+                    }
+                }
+                return -1;
             }
 
             private Pixel DropStep(Pixel pixel)
