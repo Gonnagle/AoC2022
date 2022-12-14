@@ -170,7 +170,7 @@ namespace AoC2022
 
             internal int PourSandUntilStableBedrockEdition()
             {
-                // TODO
+                return 2;
             }
 
             private Pixel DropStep(Pixel pixel)
