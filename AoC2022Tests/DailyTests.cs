@@ -31,6 +31,7 @@ namespace AoC2022Tests
                 {12, new Result("31", "29")},
                 {13, new Result("13", "140")},
                 {14, new Result("24", "93")},
+                {15, new Result("26", "TODO")},
             };
         }
 
@@ -91,8 +92,8 @@ namespace AoC2022Tests
 
         [Fact]
         public void CurrentDay(){
-            var result = Day14.Part2(File.ReadLines("Inputs/Day14Example.txt"));
-            result.Should().Be(_expectedExampleResults[14].Part2);
+            var result = Day15.Part1(File.ReadLines("Inputs/Day15Example.txt"));
+            result.Should().Be(_expectedExampleResults[15].Part1);
         }
 
         [Theory]
