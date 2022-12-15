@@ -2,7 +2,6 @@
 
 namespace AoC2022
 {
-
     // Many of the quality of life features from https://markheath.net/post/coord-performance-versus-readability
     public class Coordinate
     {
@@ -63,5 +62,11 @@ namespace AoC2022
         {
             return new Coordinate(a.X + b.X, a.Y + b.Y);
         }
+
+        public static int ManhattanDistance(Coordinate a, Coordinate b)
+            => Math.Abs(a.X - b.X) + Math.Abs(a.Y - b.Y);
+
+        public int ManhattanDistance(Coordinate other)
+            => ManhattanDistance(this, other);
     }
 }

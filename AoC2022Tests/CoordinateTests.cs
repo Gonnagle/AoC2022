@@ -111,5 +111,34 @@ namespace AoC2022Tests
 
             result.Should().Be(same);
         }
+
+        [Theory]
+        [InlineData("(1,1)", "(2,3)", 3)]
+        [InlineData("(0,1)", "(0,-3)", 4)]
+        [InlineData("(1,2)", "(0,2)", 1)]
+        [InlineData("(2,-3)", "(2,-3)", 0)]
+        public void Coordinate_StaticManhattanDistance(string a, string b, int distance)
+        {
+            var coordinateA = new Coordinate(a);
+            var coordinateB = new Coordinate(b);
+            var result = Coordinate.ManhattanDistance(coordinateA, coordinateB);
+
+            result.Should().Be(distance);
+        }
+
+
+        [Theory]
+        [InlineData("(1,1)", "(2,3)", 3)]
+        [InlineData("(0,1)", "(0,-3)", 4)]
+        [InlineData("(1,2)", "(0,2)", 1)]
+        [InlineData("(2,-3)", "(2,-3)", 0)]
+        public void Coordinate_ManhattanDistance(string a, string b, int distance)
+        {
+            var coordinateA = new Coordinate(a);
+            var coordinateB = new Coordinate(b);
+            var result = coordinateA.ManhattanDistance(coordinateB);
+
+            result.Should().Be(distance);
+        }
     }
 }
