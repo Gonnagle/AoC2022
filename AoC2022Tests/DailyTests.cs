@@ -31,7 +31,7 @@ namespace AoC2022Tests
                 {12, new Result("31", "29")},
                 {13, new Result("13", "140")},
                 {14, new Result("24", "93")},
-                {15, new Result("26", "TODO")},
+                {15, new Result("26", "56000011")},
             };
         }
 
@@ -72,6 +72,7 @@ namespace AoC2022Tests
             var result = methodInfo.Invoke(null, new object?[]{lines})!.ToString();
 
             Console.WriteLine($"Day {day} / Part 1 Result in {stopWatch.ElapsedMilliseconds} ms:\n{result}");
+            _testOutputHelper.WriteLine($"In {stopWatch.ElapsedMilliseconds} ms");
             _testOutputHelper.WriteLine(result);
         }
 
@@ -92,8 +93,8 @@ namespace AoC2022Tests
 
         [Fact]
         public void CurrentDay(){
-            var result = Day15.Part1(File.ReadLines("Inputs/Day15Example.txt"));
-            result.Should().Be(_expectedExampleResults[15].Part1);
+            var result = Day15.Part2(File.ReadLines("Inputs/Day15Example.txt"));
+            result.Should().Be(_expectedExampleResults[15].Part2);
         }
 
         [Theory]
