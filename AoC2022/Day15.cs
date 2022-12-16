@@ -85,43 +85,84 @@ public static class Day15
         public Coordinate LocateBeacon(int maxWidth)
         {
             var adjustedWidth = maxWidth + 1;
-            var scanningStatus = new bool[adjustedWidth];
-            for (var yToAnalyze = 0; yToAnalyze <= 1000; ++yToAnalyze)
+            //var scanningStatus = new HashSet<int>(adjustedWidth);
+            var xTraverse = 0;
+            var firstXonRow = 0;
+            var fillCount = 0;
+            for (var yToAnalyze = 0; yToAnalyze <= 100; ++yToAnalyze)
             {
-                Array.Fill(scanningStatus, false);
+                var scanningStatus = ResetScanningStatusArray(adjustedWidth);
+                
                 foreach (var sensor in Sensors)
                 {
                     if (sensor[1].Y == yToAnalyze && sensor[1].X >= 0 && sensor[1].X <= adjustedWidth)
                     {
-                        scanningStatus[sensor[1].X] = true;
+                        // scanningStatus[sensor[1].X] = true;
+                        scanningStatus.Remove(sensor[1].X);
                     }
 
-                    var manhattanDist = sensor[0].ManhattanDistance(sensor[1]);
-                    var yDiff = yToAnalyze - sensor[0].Y;
-                    var yDist = Math.Abs(yDiff);
-                    var xTraverse = yDist <= manhattanDist
-                        ? yDist == 0 ? manhattanDist - yDist : manhattanDist - yDist + 1
-                        : 0;
+                    xTraverse = ResolveXTraverse(sensor[0].ManhattanDistance(sensor[1]), yToAnalyze, sensor[0].Y);
+
                     if (xTraverse > 0)
                     {
-                        var firstXonRow = sensor[0].X - xTraverse;
-                        var xCorrection = firstXonRow < 0 ? Math.Abs(firstXonRow) : 0;
-                        firstXonRow = int.Max(0, firstXonRow);
-                        var fillCount = 2 * xTraverse - 1 - xCorrection;
-                        fillCount = int.Min(fillCount, adjustedWidth - firstXonRow);
-                        Array.Fill(scanningStatus, true, firstXonRow, fillCount);
+                        (firstXonRow, fillCount) = ResolveXFillParams(xTraverse, sensor[0].X, adjustedWidth);
+
+                        // scanningStatus = XFill(scanningStatus, firstXonRow, fillCount);
+                        XFill(scanningStatus, firstXonRow, fillCount);
                     }
                 }
 
-                if (scanningStatus.Any(noway => !noway))
+                if (scanningStatus.Count > 0)
                 {
                     // Horrible off by one correction... no idea what went wrong :D
-                    var x = scanningStatus.ToList().FindIndex(noway => !noway) + 1;
+                    // var x = scanningStatus.ToList().FindIndex(noway => !noway) + 1;
+                    var x = scanningStatus.First() + 1;
 
                     return (x, yToAnalyze);
                 }
             }
             return new Coordinate();
+        }
+
+        private static void XFill(HashSet<int> scanningStatus, int firstXonRow, int fillCount)
+        {
+            // Array.Fill(scanningStatus, true, firstXonRow, fillCount);
+            for (int i = firstXonRow; i <= firstXonRow + fillCount; ++i)
+            {
+                scanningStatus.Remove(i);
+            }
+            
+            // return scanningStatus;
+        }
+
+        private static (int firstXonRow, int fillCount) ResolveXFillParams(int xTraverse, int sensorX, int adjustedWidth)
+        {
+            var firstXonRow = sensorX - xTraverse;
+            var xCorrection = firstXonRow < 0 ? Math.Abs(firstXonRow) : 0;
+            firstXonRow = int.Max(0, firstXonRow);
+            var fillCount = 2 * xTraverse - 1 - xCorrection;
+            fillCount = int.Min(fillCount, adjustedWidth - firstXonRow);
+
+            return (firstXonRow, fillCount);
+        }
+
+        private static int ResolveXTraverse(int manhattanDistance, int yToAnalyze, int sensorY)
+        {
+            var yDist = Math.Abs(yToAnalyze - sensorY);
+            return yDist <= manhattanDistance
+                ? yDist == 0 ? manhattanDistance : manhattanDistance - yDist + 1
+                : 0;
+        }
+
+        private static HashSet<int> ResetScanningStatusArray(int width)
+        {
+            var scanningStatus = new HashSet<int>(width);
+            for (var i = 0; i <= width; ++i)
+            {
+                scanningStatus.Add(i);
+            }
+            // Array.Fill(scanningStatus, false);
+            return scanningStatus;
         }
     }
 }
