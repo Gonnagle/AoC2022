@@ -80,7 +80,7 @@
                     var parts = line.Split(" ");
                     if (parts[0] != "dir")
                     {
-                        workingDirectory!.Files.Add(new File(parts[1], int.Parse(parts[0])));
+                        workingDirectory!.Files.Add(new FileZ(parts[1], int.Parse(parts[0])));
                     }
                 }
             }
@@ -108,7 +108,7 @@
         public Directory? ParentDirectory { get; }
         public int TotalSize { get; private set; } = 0;
         public IList<Directory> Subdirectories { get; } = new List<Directory>();
-        public IList<File> Files { get; } = new List<File>();
+        public IList<FileZ> Files { get; } = new List<FileZ>();
 
         public void CountSize()
         {
@@ -116,5 +116,5 @@
         }
     }
 
-    internal record File(string Name, int Size);
+    internal record FileZ(string Name, int Size);
 }

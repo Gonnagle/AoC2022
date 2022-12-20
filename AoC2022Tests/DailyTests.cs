@@ -32,6 +32,7 @@ namespace AoC2022Tests
                 {13, new Result("13", "140")},
                 {14, new Result("24", "93")},
                 {15, new Result("26", "56000011")},
+                {16, new Result("1651", "TODO")},
             };
         }
 
